@@ -2,8 +2,12 @@ package main
 
 import "fmt"
 
-type vertex struct {
-	Lat, Long float64
+type Node struct {
+	key   string
+	value int
+
+	next *Node
+	prev *Node
 }
 
 func main() {
