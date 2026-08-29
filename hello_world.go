@@ -10,6 +10,14 @@ type Node struct {
 	prev *Node
 }
 
+type LRUCache struct {
+	capacity int
+	cache    map[string]*Node
+
+	head *Node
+	tail *Node
+}
+
 func main() {
 	m := make([]int, 5)
 	fmt.Println(m)
