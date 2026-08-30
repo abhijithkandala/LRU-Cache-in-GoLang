@@ -33,6 +33,15 @@ func newLRUCache(capacity int) *LRUCache {
 	}
 }
 
+func removeNode(key string, lrucache *LRUCache) {
+	if lrucache.cache[key] != nil {
+		node := lrucache.cache[key]
+		delete(lrucache.cache, key)
+		node.prev.next = node.next
+		node.next.prev = node.prev
+	}
+}
+
 func main() {
 	m := make([]int, 5)
 	fmt.Println(m)
