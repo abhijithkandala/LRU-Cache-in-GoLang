@@ -42,6 +42,17 @@ func removeNode(key string, lrucache *LRUCache) {
 	}
 }
 
+func addToFront(key string, value int, lrucache *LRUCache) {
+	node := &Node{key: key, value: value}
+	head := lrucache.head
+	temp := head.next
+	head.next = node
+	node.prev = head
+	node.next = temp
+	temp.prev = node
+
+}
+
 func main() {
 	m := make([]int, 5)
 	fmt.Println(m)
