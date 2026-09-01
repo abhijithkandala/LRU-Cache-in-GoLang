@@ -53,6 +53,17 @@ func addToFront(key string, value int, lrucache *LRUCache) {
 
 }
 
+func (c *LRUCache) Get(key string) (int, bool) {
+	if c.cache[key] == nil {
+		//cache miss
+		return 0, false
+	}
+	value := c.cache[key].value
+	removeNode(key, c)
+	addToFront(key, value, c)
+	return c.cache[key].value, true
+}
+
 func main() {
 	m := make([]int, 5)
 	fmt.Println(m)
