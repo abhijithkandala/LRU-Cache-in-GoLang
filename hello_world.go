@@ -41,8 +41,8 @@ func removeNode(key string, lrucache *LRUCache) {
 	}
 }
 
-func addToFront(key string, value int, lrucache *LRUCache) {
-	node := &Node{key: key, value: value}
+func addToFront(lrucache *LRUCache, node *Node) {
+
 	head := lrucache.head
 	temp := head.next
 	head.next = node
@@ -57,9 +57,9 @@ func (c *LRUCache) Get(key string) (int, bool) {
 		//cache miss
 		return 0, false
 	}
-	value := c.cache[key].value
+
 	removeNode(key, c)
-	addToFront(key, value, c)
+	addToFront(c, c.cache[key])
 	return c.cache[key].value, true
 }
 
