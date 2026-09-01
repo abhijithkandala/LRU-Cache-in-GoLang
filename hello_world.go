@@ -33,12 +33,11 @@ func newLRUCache(capacity int) *LRUCache {
 	}
 }
 
-func removeNode(key string, lrucache *LRUCache) {
-	if lrucache.cache[key] != nil {
-		node := lrucache.cache[key]
-		node.prev.next = node.next
-		node.next.prev = node.prev
-	}
+func removeNode(node *Node) {
+
+	node.prev.next = node.next
+	node.next.prev = node.prev
+
 }
 
 func addToFront(lrucache *LRUCache, node *Node) {
@@ -53,12 +52,12 @@ func addToFront(lrucache *LRUCache, node *Node) {
 }
 
 func (c *LRUCache) Get(key string) (int, bool) {
-	if c.cache[key] == nil {
-		//cache miss
+	node, ok := c.cache[key]
+	if !ok {
 		return 0, false
 	}
 
-	removeNode(key, c)
+	removeNode(node)
 	addToFront(c, c.cache[key])
 	return c.cache[key].value, true
 }
