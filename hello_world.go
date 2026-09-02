@@ -62,6 +62,18 @@ func (c *LRUCache) Get(key string) (int, bool) {
 	return c.cache[key].value, true
 }
 
+func (c *LRUCache) Put(key string, value int) bool {
+	if c.cache[key] != nil {
+		node := c.cache[key]
+		node.value = value
+		addToFront(c, node)
+	} else {
+		node := &Node{key: key, value: value}
+		c.cache[key] = node
+		addToFront(c, node)
+	}
+	return true
+}
 func main() {
 	m := make([]int, 5)
 	fmt.Println(m)
