@@ -66,14 +66,20 @@ func (c *LRUCache) Put(key string, value int) bool {
 	if c.cache[key] != nil {
 		node := c.cache[key]
 		node.value = value
+		removeNode(node)
 		addToFront(c, node)
 	} else {
+		if len(c.cache) == c.capacity {
+			delete(c.cache, c.tail.prev.key)
+			removeNode(c.tail.prev)
+		}
 		node := &Node{key: key, value: value}
 		c.cache[key] = node
 		addToFront(c, node)
 	}
 	return true
 }
+
 func main() {
 	m := make([]int, 5)
 	fmt.Println(m)
