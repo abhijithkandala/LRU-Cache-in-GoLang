@@ -40,7 +40,7 @@ func removeNode(node *Node) {
 
 }
 
-func addToFront(lrucache *LRUCache, node *Node) {
+func (lrucache *LRUCache) addToFront(node *Node) {
 
 	head := lrucache.head
 	temp := head.next
@@ -58,7 +58,7 @@ func (c *LRUCache) Get(key string) (int, bool) {
 	}
 
 	removeNode(node)
-	addToFront(c, c.cache[key])
+	c.addToFront(c.cache[key])
 	return c.cache[key].value, true
 }
 
@@ -67,7 +67,7 @@ func (c *LRUCache) Put(key string, value int) bool {
 		node := c.cache[key]
 		node.value = value
 		removeNode(node)
-		addToFront(c, node)
+		c.addToFront(node)
 	} else {
 		if len(c.cache) == c.capacity {
 			delete(c.cache, c.tail.prev.key)
@@ -75,7 +75,7 @@ func (c *LRUCache) Put(key string, value int) bool {
 		}
 		node := &Node{key: key, value: value}
 		c.cache[key] = node
-		addToFront(c, node)
+		c.addToFront(node)
 	}
 	return true
 }
