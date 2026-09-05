@@ -1,10 +1,12 @@
 package main
 
 import "fmt"
+import "time"
 
 type Node struct {
-	key   string
-	value int
+	key      string
+	value    int
+	expireAt time.Time
 
 	next *Node
 	prev *Node
@@ -62,7 +64,7 @@ func (c *LRUCache) Get(key string) (int, bool) {
 	return c.cache[key].value, true
 }
 
-func (c *LRUCache) Put(key string, value int) bool {
+func (c *LRUCache) Put(key string, value int, ttl time.Duration) bool {
 	if c.cache[key] != nil {
 		node := c.cache[key]
 		node.value = value
