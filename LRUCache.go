@@ -58,7 +58,11 @@ func (c *LRUCache) Get(key string) (int, bool) {
 	if !ok {
 		return 0, false
 	}
-
+	if time.Now().After(node.expireAt) {
+		delete(c.cache, key)
+		removeNode(node)
+		return 0, false
+	}
 	removeNode(node)
 	c.addToFront(c.cache[key])
 	return c.cache[key].value, true
@@ -75,7 +79,7 @@ func (c *LRUCache) Put(key string, value int, ttl time.Duration) bool {
 			delete(c.cache, c.tail.prev.key)
 			removeNode(c.tail.prev)
 		}
-		node := &Node{key: key, value: value}
+		node := &Node{key: key, value: value, expireAt: time.Now().Add(ttl)}
 		c.cache[key] = node
 		c.addToFront(node)
 	}
