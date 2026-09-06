@@ -71,6 +71,7 @@ func (c *LRUCache) Get(key string) (int, bool) {
 func (c *LRUCache) Put(key string, value int, ttl time.Duration) bool {
 	if c.cache[key] != nil {
 		node := c.cache[key]
+		node.expireAt = time.Now().Add(ttl)
 		node.value = value
 		removeNode(node)
 		c.addToFront(node)
